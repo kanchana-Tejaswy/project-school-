@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teja Bhai Mass Entry</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        min-height: 100vh;
+        background:
+            radial-gradient(circle at center, #252525 0%, #090909 45%, #000 100%);
+        color: white;
+        font-family: Arial, Helvetica, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+    }
+
+    .screen {
+        text-align: center;
+        width: 100%;
+        padding: 25px;
+    }
+
+    .warning {
+        font-size: 14px;
+        letter-spacing: 6px;
+        color: #aaa;
+        opacity: 0;
+        animation: fadeIn 1s forwards;
+    }
+
+    .dialogue {
+        margin-top: 25px;
+        font-size: clamp(38px, 9vw, 100px);
+        font-weight: 900;
+        line-height: 1.05;
+        text-transform: uppercase;
+
+        opacity: 0;
+        transform: scale(0.2);
+        text-shadow:
+            0 0 10px rgba(255,255,255,.5),
+            0 0 30px rgba(255,50,50,.4);
+
+        animation: massEntry 1.8s cubic-bezier(.12,.75,.2,1.2) 1s forwards;
+    }
+
+    .dialogue span {
+        display: block;
+    }
+
+    .teja {
+        font-size: .65em;
+        letter-spacing: 12px;
+        color: #ff3131;
+        text-shadow:
+            0 0 10px #ff3131,
+            0 0 30px #ff0000;
+    }
+
+    .final {
+        margin-top: 30px;
+        font-size: clamp(20px, 5vw, 45px);
+        font-weight: bold;
+        letter-spacing: 4px;
+        opacity: 0;
+        animation: finalHit .8s 3s forwards;
+    }
+
+    .line {
+        height: 3px;
+        width: 0;
+        margin: 25px auto;
+        background: white;
+        box-shadow: 0 0 15px white;
+        animation: lineIn 1s 2.4s forwards;
+    }
+
+    .flash {
+        position: fixed;
+        inset: 0;
+        background: white;
+        opacity: 0;
+        pointer-events: none;
+        animation: flash 0.25s 2.55s;
+    }
+
+    .shake {
+        animation: shake .4s 2.55s;
+    }
+
+    @keyframes fadeIn {
+        to { opacity: 1; }
+    }
+
+    @keyframes massEntry {
+        0% {
+            opacity: 0;
+            transform: scale(0.2) translateY(100px);
+        }
+        60% {
+            opacity: 1;
+            transform: scale(1.15) translateY(-10px);
+        }
+        80% {
+            transform: scale(.95);
+        }
+        100% {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    @keyframes lineIn {
+        to { width: 75%; }
+    }
+
+    @keyframes finalHit {
+        0% {
+            opacity: 0;
+            transform: scale(2);
+        }
+        70% {
+            opacity: 1;
+            transform: scale(.9);
+        }
+        100% {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    @keyframes flash {
+        0% { opacity: 0; }
+        40% { opacity: .9; }
+        100% { opacity: 0; }
+    }
+
+    @keyframes shake {
+        0%,100% { transform: translate(0); }
+        20% { transform: translate(-12px, 5px); }
+        40% { transform: translate(12px, -5px); }
+        60% { transform: translate(-8px, -3px); }
+        80% { transform: translate(8px, 3px); }
+    }
+</style>
+</head>
+
+<body>
+
+<div class="flash"></div>
+
+<div class="screen shake">
+
+    <div class="warning">
+        ⚠ MASS ENTRY ⚠
+    </div>
+
+    <div class="dialogue">
+        <span class="teja">TEJA BHAI</span>
+        <span>THOPU!</span>
+    </div>
+
+    <div class="line"></div>
+
+    <div class="final">
+        DHAMUNTE AAPU. 🔥
+    </div>
+
+</div>
+
+<script>
+    // Optional dramatic sound using browser speech
+    setTimeout(() => {
+        if ('speechSynthesis' in window) {
+            const text = new SpeechSynthesisUtterance(
+                "Teja Bhai Thopu... Dhamunte Aapu!"
+            );
+
+            text.rate = 0.75;
+            text.pitch = 0.7;
+            text.volume = 1;
+
+            speechSynthesis.speak(text);
+        }
+    }, 2800);
+</script>
+
+</body>
+</html>
