@@ -1,0 +1,598 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Helvetica, Arial, sans-serif;
+    background:
+        radial-gradient(circle at 15% 10%, rgba(9, 105, 218, 0.08), transparent 28%),
+        radial-gradient(circle at 85% 30%, rgba(46, 160, 67, 0.07), transparent 30%),
+        #f6f8fa;
+    color: #24292f;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    height: 68px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 clamp(20px, 6vw, 90px);
+    background: rgba(31, 35, 40, 0.94);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: -0.4px;
+}
+
+.logo span {
+    font-weight: 750;
+}
+
+.admin-badge {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 13px;
+    border-radius: 999px;
+    background: rgba(46, 160, 67, 0.16);
+    border: 1px solid rgba(46, 160, 67, 0.35);
+    color: #56d364;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+    box-shadow: 0 0 16px rgba(46, 160, 67, 0.12);
+}
+
+.admin-badge::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #3fb950;
+    box-shadow: 0 0 8px rgba(63, 185, 80, 0.8);
+}
+
+.container {
+    width: min(92%, 960px);
+    margin: 0 auto;
+    padding: 75px 0 70px;
+    flex: 1;
+}
+
+.hero {
+    text-align: center;
+    margin-bottom: 48px;
+}
+
+.eyebrow {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 12px;
+    margin-bottom: 17px;
+    border-radius: 999px;
+    background: #ddf4ff;
+    border: 1px solid #b6e3ff;
+    color: #0969da;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.8px;
+}
+
+.hero h1 {
+    color: #1f2328;
+    font-size: clamp(34px, 5vw, 52px);
+    line-height: 1.05;
+    letter-spacing: -2px;
+    margin-bottom: 18px;
+    font-weight: 750;
+}
+
+.subtitle {
+    max-width: 650px;
+    margin: 0 auto;
+    color: #57606a;
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+.repo-card {
+    position: relative;
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid #d0d7de;
+    border-radius: 16px;
+    padding: 34px;
+    margin-bottom: 38px;
+    overflow: hidden;
+    box-shadow:
+        0 12px 35px rgba(31, 35, 40, 0.08),
+        0 2px 6px rgba(31, 35, 40, 0.04);
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        border-color 0.25s ease;
+}
+
+.repo-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(
+        90deg,
+        #0969da,
+        #54aeff,
+        #2da44e
+    );
+}
+
+.repo-card:hover {
+    transform: translateY(-3px);
+    border-color: #b6bec8;
+    box-shadow:
+        0 18px 45px rgba(31, 35, 40, 0.12),
+        0 4px 10px rgba(31, 35, 40, 0.05);
+}
+
+.repo-header {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid #d8dee4;
+}
+
+.repo-icon {
+    width: 58px;
+    height: 58px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 13px;
+    background: linear-gradient(
+        135deg,
+        #ddf4ff,
+        #e6ffec
+    );
+    border: 1px solid #b6e3ff;
+    font-size: 27px;
+    box-shadow: 0 7px 18px rgba(9, 105, 218, 0.08);
+    transition: transform 0.25s ease;
+}
+
+.repo-card:hover .repo-icon {
+    transform: scale(1.06) rotate(-2deg);
+}
+
+.repo-header h2 {
+    color: #0969da;
+    font-size: 23px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 6px;
+}
+
+.repo-description {
+    color: #57606a;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.repo-info {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    padding: 26px 0;
+}
+
+.info-item {
+    position: relative;
+    padding: 17px;
+    background: #f6f8fa;
+    border: 1px solid #d8dee4;
+    border-radius: 10px;
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.info-item:hover {
+    background: #ffffff;
+    border-color: #b6bec8;
+    transform: translateY(-2px);
+}
+
+.label {
+    display: block;
+    margin-bottom: 8px;
+    color: #656d76;
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.value {
+    display: inline-flex;
+    align-items: center;
+    color: #24292f;
+    font-size: 14px;
+    font-weight: 650;
+}
+
+.value.public {
+    color: #1a7f37;
+}
+
+.value.public::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    margin-right: 7px;
+    border-radius: 50%;
+    background: #2da44e;
+    box-shadow: 0 0 0 3px rgba(45, 164, 78, 0.12);
+}
+
+.actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 13px;
+}
+
+.primary-btn,
+.secondary-btn {
+    position: relative;
+    min-height: 48px;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 650;
+    cursor: pointer;
+    transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease,
+        background 0.18s ease,
+        border-color 0.18s ease;
+}
+
+.primary-btn {
+    border: 1px solid #1f883d;
+    background: linear-gradient(
+        180deg,
+        #2da44e,
+        #1f883d
+    );
+    color: #ffffff;
+    box-shadow: 0 4px 10px rgba(31, 136, 61, 0.2);
+}
+
+.primary-btn:hover {
+    background: linear-gradient(
+        180deg,
+        #34b354,
+        #238636
+    );
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(31, 136, 61, 0.25);
+}
+
+.primary-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 3px 7px rgba(31, 136, 61, 0.2);
+}
+
+.secondary-btn {
+    border: 1px solid #d0d7de;
+    background: #ffffff;
+    color: #24292f;
+    box-shadow: 0 2px 5px rgba(31, 35, 40, 0.04);
+}
+
+.secondary-btn:hover {
+    background: #f6f8fa;
+    border-color: #8c959f;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(31, 35, 40, 0.08);
+}
+
+.secondary-btn:active {
+    transform: translateY(0);
+}
+
+.instructions {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid #d0d7de;
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 8px 25px rgba(31, 35, 40, 0.05);
+}
+
+.instructions h2 {
+    color: #1f2328;
+    font-size: 21px;
+    letter-spacing: -0.4px;
+    margin-bottom: 27px;
+}
+
+.steps {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.step {
+    display: flex;
+    align-items: flex-start;
+    gap: 17px;
+    padding: 4px 0;
+    transition: transform 0.2s ease;
+}
+
+.step:hover {
+    transform: translateX(4px);
+}
+
+.step > span {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: #ddf4ff;
+    border: 1px solid #b6e3ff;
+    color: #0969da;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+}
+
+.step h3 {
+    color: #24292f;
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.step p {
+    color: #57606a;
+    font-size: 14px;
+    line-height: 1.55;
+    max-width: 700px;
+}
+
+.message {
+    display: flex;
+    align-items: center;
+    min-height: 50px;
+    margin-top: 24px;
+    padding: 14px 17px;
+    border-radius: 9px;
+    background: #ddf4ff;
+    border: 1px solid #54aeff;
+    color: #0969da;
+    font-size: 14px;
+    box-shadow: 0 5px 15px rgba(9, 105, 218, 0.07);
+    animation: messageIn 0.25s ease;
+}
+
+.hidden {
+    display: none;
+}
+
+@keyframes messageIn {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+footer {
+    padding: 22px 20px;
+    background: #1f2328;
+    border-top: 1px solid #30363d;
+    color: #8c959f;
+    text-align: center;
+    font-size: 12px;
+    letter-spacing: 0.1px;
+}
+
+button:focus-visible {
+    outline: 3px solid rgba(9, 105, 218, 0.35);
+    outline-offset: 3px;
+}
+
+@media (max-width: 760px) {
+    .container {
+        padding-top: 55px;
+    }
+
+    .repo-info {
+        grid-template-columns: 1fr;
+    }
+
+    .repo-card {
+        padding: 28px;
+    }
+
+    .instructions {
+        padding: 28px;
+    }
+}
+
+@media (max-width: 560px) {
+    .navbar {
+        height: 62px;
+        padding: 0 18px;
+    }
+
+    .logo {
+        font-size: 18px;
+    }
+
+    .admin-badge {
+        padding: 6px 10px;
+        font-size: 9px;
+    }
+
+    .container {
+        width: 92%;
+        padding: 45px 0 55px;
+    }
+
+    .hero {
+        margin-bottom: 35px;
+    }
+
+    .eyebrow {
+        font-size: 9px;
+        letter-spacing: 1.4px;
+        padding: 5px 10px;
+    }
+
+    .hero h1 {
+        font-size: 35px;
+        letter-spacing: -1.5px;
+        line-height: 1.1;
+    }
+
+    .subtitle {
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    .repo-card {
+        padding: 23px;
+        border-radius: 13px;
+    }
+
+    .repo-header {
+        gap: 13px;
+        padding-bottom: 22px;
+    }
+
+    .repo-icon {
+        width: 48px;
+        height: 48px;
+        font-size: 22px;
+        border-radius: 10px;
+    }
+
+    .repo-header h2 {
+        font-size: 19px;
+    }
+
+    .repo-description {
+        font-size: 12px;
+    }
+
+    .repo-info {
+        gap: 10px;
+        padding: 21px 0;
+    }
+
+    .info-item {
+        padding: 14px;
+    }
+
+    .actions {
+        grid-template-columns: 1fr;
+    }
+
+    .primary-btn,
+    .secondary-btn {
+        min-height: 46px;
+    }
+
+    .instructions {
+        padding: 23px;
+        border-radius: 13px;
+    }
+
+    .instructions h2 {
+        font-size: 19px;
+        margin-bottom: 23px;
+    }
+
+    .step {
+        gap: 13px;
+    }
+
+    .step > span {
+        width: 38px;
+        height: 38px;
+        font-size: 10px;
+    }
+
+    .step h3 {
+        font-size: 14px;
+    }
+
+    .step p {
+        font-size: 12px;
+    }
+
+    footer {
+        padding: 18px 15px;
+        font-size: 11px;
+        line-height: 1.5;
+    }
+}
+
+@media (max-width: 360px) {
+    .hero h1 {
+        font-size: 30px;
+    }
+
+    .logo {
+        font-size: 16px;
+    }
+
+    .admin-badge {
+        font-size: 8px;
+        padding: 5px 8px;
+    }
+
+    .repo-card,
+    .instructions {
+        padding: 19px;
+    }
+
+    .repo-header h2 {
+        font-size: 17px;
+    }
+  }
