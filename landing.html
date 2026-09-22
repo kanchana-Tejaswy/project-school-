@@ -1,0 +1,1746 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Inkly — Modern Blogging Platform</title>
+
+    <style>
+        /* =========================
+   RESET
+========================= */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI",
+                Roboto, Helvetica, Arial, sans-serif;
+            background: #f7f8fa;
+            color: #15171a;
+            line-height: 1.6;
+            transition: background .3s, color .3s;
+        }
+
+        button,
+        input {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        /* =========================
+   DARK MODE
+========================= */
+
+        body.dark {
+            background: #0d0f12;
+            color: #f2f4f7;
+        }
+
+        body.dark .navbar,
+        body.dark .card,
+        body.dark .newsletter,
+        body.dark .search-box,
+        body.dark .mobile-menu {
+            background: #15181d;
+            border-color: #272c33;
+        }
+
+        body.dark .muted,
+        body.dark .post-excerpt,
+        body.dark .category-description {
+            color: #aeb5bf;
+        }
+
+        body.dark .nav-links a {
+            color: #c9ced6;
+        }
+
+        /* =========================
+   NAVBAR
+========================= */
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+
+            width: 100%;
+            height: 74px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 6%;
+
+            background: rgba(255, 255, 255, .88);
+            backdrop-filter: blur(18px);
+
+            border-bottom: 1px solid #e7e9ed;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            font-size: 23px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .logo-mark {
+            width: 36px;
+            height: 36px;
+
+            display: grid;
+            place-items: center;
+
+            border-radius: 11px;
+
+            background: #111;
+            color: white;
+
+            font-size: 17px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #454a52;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            transition: .2s;
+        }
+
+        .nav-links a:hover {
+            color: #000;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .icon-btn {
+            width: 40px;
+            height: 40px;
+
+            border: 1px solid #e1e4e8;
+            border-radius: 50%;
+
+            background: transparent;
+
+            display: grid;
+            place-items: center;
+
+            font-size: 17px;
+
+            transition: .2s;
+        }
+
+        .icon-btn:hover {
+            transform: translateY(-2px);
+            background: #f0f1f3;
+        }
+
+        .write-btn {
+            border: none;
+            border-radius: 22px;
+
+            padding: 10px 18px;
+
+            background: #111;
+            color: white;
+
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .menu-btn {
+            display: none;
+        }
+
+        /* =========================
+   HERO
+========================= */
+
+        .hero {
+            max-width: 1250px;
+            margin: auto;
+
+            padding: 85px 6% 65px;
+
+            display: grid;
+            grid-template-columns: 1.1fr .9fr;
+
+            gap: 70px;
+            align-items: center;
+        }
+
+        .hero-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+
+            padding: 7px 12px;
+
+            border-radius: 20px;
+
+            background: #eceef1;
+
+            font-size: 12px;
+            font-weight: 700;
+
+            margin-bottom: 22px;
+        }
+
+        .dot {
+            width: 7px;
+            height: 7px;
+
+            background: #18a957;
+            border-radius: 50%;
+        }
+
+        .hero h1 {
+            font-size: clamp(45px, 6vw, 76px);
+
+            line-height: .98;
+
+            letter-spacing: -4px;
+
+            max-width: 680px;
+
+            margin-bottom: 25px;
+        }
+
+        .hero h1 span {
+            color: #777;
+        }
+
+        .hero-description {
+            max-width: 560px;
+
+            color: #686e76;
+
+            font-size: 17px;
+
+            margin-bottom: 32px;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .primary-btn,
+        .secondary-btn {
+            padding: 13px 20px;
+
+            border-radius: 25px;
+
+            font-weight: 700;
+            font-size: 14px;
+
+            transition: .2s;
+        }
+
+        .primary-btn {
+            border: none;
+
+            background: #111;
+            color: white;
+        }
+
+        .secondary-btn {
+            border: 1px solid #ddd;
+            background: white;
+            color: #222;
+        }
+
+        .primary-btn:hover,
+        .secondary-btn:hover {
+            transform: translateY(-3px);
+        }
+
+        /* =========================
+   HERO VISUAL
+========================= */
+
+        .hero-visual {
+            position: relative;
+
+            height: 400px;
+
+            border-radius: 28px;
+
+            overflow: hidden;
+
+            background:
+                radial-gradient(circle at 30% 25%, #fff 0 8%, transparent 25%),
+                linear-gradient(135deg, #15171a, #343942);
+
+            box-shadow: 0 25px 70px rgba(0, 0, 0, .16);
+        }
+
+        .visual-card {
+            position: absolute;
+
+            width: 270px;
+
+            background: rgba(255, 255, 255, .94);
+
+            color: #111;
+
+            padding: 22px;
+
+            border-radius: 20px;
+
+            box-shadow: 0 20px 50px rgba(0, 0, 0, .25);
+        }
+
+        .visual-card.one {
+            top: 55px;
+            left: 45px;
+
+            transform: rotate(-7deg);
+        }
+
+        .visual-card.two {
+            right: 35px;
+            bottom: 45px;
+
+            transform: rotate(6deg);
+        }
+
+        .visual-card small {
+            color: #777;
+            font-size: 11px;
+        }
+
+        .visual-card h3 {
+            margin-top: 8px;
+            font-size: 20px;
+            line-height: 1.2;
+        }
+
+        .visual-line {
+            height: 6px;
+
+            margin-top: 15px;
+
+            border-radius: 10px;
+
+            background: #e4e5e7;
+        }
+
+        /* =========================
+   CONTAINER
+========================= */
+
+        .container {
+            max-width: 1250px;
+            margin: auto;
+
+            padding: 0 6%;
+        }
+
+        /* =========================
+   SECTION HEADER
+========================= */
+
+        .section-header {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+
+            margin-bottom: 28px;
+        }
+
+        .section-title {
+            font-size: 31px;
+            letter-spacing: -1.5px;
+        }
+
+        .view-all {
+            text-decoration: none;
+
+            color: #666;
+
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        /* =========================
+   FEATURED
+========================= */
+
+        .featured-grid {
+            display: grid;
+
+            grid-template-columns: 1.35fr .65fr;
+
+            gap: 22px;
+        }
+
+        .featured-main {
+            min-height: 430px;
+
+            padding: 35px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+
+            border-radius: 25px;
+
+            color: white;
+
+            background:
+                linear-gradient(180deg, transparent 20%, rgba(0, 0, 0, .85)),
+                linear-gradient(135deg, #292d35, #777);
+
+            overflow: hidden;
+
+            position: relative;
+        }
+
+        .featured-main::before {
+            content: "IDEAS";
+
+            position: absolute;
+
+            top: 30px;
+            right: 30px;
+
+            font-size: 70px;
+            font-weight: 900;
+
+            opacity: .08;
+        }
+
+        .featured-main h2 {
+            max-width: 700px;
+
+            font-size: 40px;
+
+            line-height: 1.08;
+
+            letter-spacing: -1.5px;
+
+            margin: 13px 0;
+        }
+
+        .featured-main p {
+            max-width: 620px;
+
+            color: #d7d9dc;
+        }
+
+        .post-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            font-size: 12px;
+        }
+
+        .author {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .avatar {
+            width: 30px;
+            height: 30px;
+
+            display: grid;
+            place-items: center;
+
+            border-radius: 50%;
+
+            background: #ddd;
+            color: #222;
+
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .featured-side {
+            display: grid;
+            gap: 22px;
+        }
+
+        .mini-card {
+            padding: 27px;
+
+            border-radius: 23px;
+
+            background: white;
+
+            border: 1px solid #e5e7ea;
+
+            transition: .25s;
+        }
+
+        .mini-card:hover {
+            transform: translateY(-5px);
+
+            box-shadow: 0 15px 40px rgba(0, 0, 0, .08);
+        }
+
+        .tag {
+            display: inline-block;
+
+            padding: 5px 9px;
+
+            border-radius: 15px;
+
+            background: #f0f1f3;
+
+            color: #555;
+
+            font-size: 10px;
+            font-weight: 800;
+
+            text-transform: uppercase;
+        }
+
+        .mini-card h3 {
+            margin-top: 14px;
+
+            font-size: 22px;
+            line-height: 1.2;
+
+            letter-spacing: -.7px;
+        }
+
+        /* =========================
+   POSTS
+========================= */
+
+        .posts-section {
+            padding: 90px 0;
+        }
+
+        .posts-grid {
+            display: grid;
+
+            grid-template-columns: repeat(3, 1fr);
+
+            gap: 22px;
+        }
+
+        .card {
+            background: white;
+
+            border: 1px solid #e5e7ea;
+
+            border-radius: 23px;
+
+            overflow: hidden;
+
+            transition: .25s;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+
+            box-shadow: 0 20px 50px rgba(0, 0, 0, .09);
+        }
+
+        .card-image {
+            height: 200px;
+
+            display: grid;
+            place-items: center;
+
+            font-size: 55px;
+            font-weight: 900;
+
+            color: rgba(255, 255, 255, .8);
+
+            background: linear-gradient(135deg, #202329, #8c929b);
+        }
+
+        .card:nth-child(2) .card-image {
+            background: linear-gradient(135deg, #302d28, #9b8e78);
+        }
+
+        .card:nth-child(3) .card-image {
+            background: linear-gradient(135deg, #1e2927, #6b8580);
+        }
+
+        .card:nth-child(4) .card-image {
+            background: linear-gradient(135deg, #29252f, #82748f);
+        }
+
+        .card:nth-child(5) .card-image {
+            background: linear-gradient(135deg, #24262d, #727987);
+        }
+
+        .card:nth-child(6) .card-image {
+            background: linear-gradient(135deg, #2a2823, #91816a);
+        }
+
+        .card-content {
+            padding: 22px;
+        }
+
+        .card h3 {
+            font-size: 21px;
+            line-height: 1.2;
+
+            margin: 13px 0 9px;
+
+            letter-spacing: -.5px;
+        }
+
+        .post-excerpt {
+            color: #6d737b;
+
+            font-size: 13px;
+
+            margin-bottom: 20px;
+        }
+
+        .card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            color: #777;
+
+            font-size: 11px;
+        }
+
+        /* =========================
+   CATEGORIES
+========================= */
+
+        .categories {
+            padding: 0 0 90px;
+        }
+
+        .category-grid {
+            display: grid;
+
+            grid-template-columns: repeat(4, 1fr);
+
+            gap: 15px;
+        }
+
+        .category {
+            padding: 22px;
+
+            border-radius: 18px;
+
+            background: white;
+
+            border: 1px solid #e5e7ea;
+
+            transition: .2s;
+        }
+
+        .category:hover {
+            transform: translateY(-4px);
+        }
+
+        .category-icon {
+            font-size: 25px;
+
+            margin-bottom: 10px;
+        }
+
+        .category h3 {
+            font-size: 16px;
+        }
+
+        .category p {
+            font-size: 12px;
+
+            color: #777;
+
+            margin-top: 4px;
+        }
+
+        /* =========================
+   NEWSLETTER
+========================= */
+
+        .newsletter {
+            max-width: 1100px;
+            margin: 0 auto 90px;
+
+            padding: 55px;
+
+            border-radius: 28px;
+
+            background: #111;
+            color: white;
+
+            text-align: center;
+        }
+
+        .newsletter h2 {
+            font-size: 36px;
+
+            letter-spacing: -1.5px;
+
+            margin-bottom: 10px;
+        }
+
+        .newsletter p {
+            color: #aaa;
+
+            max-width: 550px;
+
+            margin: 0 auto 25px;
+        }
+
+        .newsletter-form {
+            display: flex;
+
+            max-width: 470px;
+
+            margin: auto;
+
+            padding: 5px;
+
+            background: white;
+
+            border-radius: 30px;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+
+            border: none;
+            outline: none;
+
+            padding: 11px 15px;
+
+            background: transparent;
+
+            color: #111;
+        }
+
+        .newsletter-form button {
+            border: none;
+
+            padding: 11px 18px;
+
+            border-radius: 22px;
+
+            background: #111;
+            color: white;
+
+            font-weight: 700;
+        }
+
+        /* =========================
+   FOOTER
+========================= */
+
+        footer {
+            padding: 35px 6%;
+
+            border-top: 1px solid #e4e6e9;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            color: #777;
+
+            font-size: 12px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .footer-links a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* =========================
+   SEARCH MODAL
+========================= */
+
+        .search-overlay {
+            position: fixed;
+
+            inset: 0;
+
+            background: rgba(0, 0, 0, .55);
+
+            backdrop-filter: blur(8px);
+
+            display: none;
+
+            align-items: flex-start;
+            justify-content: center;
+
+            padding-top: 120px;
+
+            z-index: 2000;
+        }
+
+        .search-overlay.active {
+            display: flex;
+        }
+
+        .search-box {
+            width: min(600px, 90%);
+
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 22px;
+        }
+
+        .search-box input {
+            width: 100%;
+
+            border: none;
+            outline: none;
+
+            font-size: 22px;
+
+            background: transparent;
+        }
+
+        /* =========================
+   MOBILE MENU
+========================= */
+
+        .mobile-menu {
+            position: fixed;
+
+            top: 74px;
+            left: 0;
+            right: 0;
+
+            background: white;
+
+            border-bottom: 1px solid #ddd;
+
+            padding: 20px;
+
+            display: none;
+
+            z-index: 900;
+        }
+
+        .mobile-menu.active {
+            display: block;
+        }
+
+        .mobile-menu a {
+            display: block;
+
+            padding: 12px 0;
+
+            color: inherit;
+
+            text-decoration: none;
+
+            font-weight: 600;
+        }
+
+        /* =========================
+   RESPONSIVE
+========================= */
+
+        @media(max-width:900px) {
+
+            .nav-links {
+                display: none;
+            }
+
+            .menu-btn {
+                display: grid;
+            }
+
+            .hero {
+                grid-template-columns: 1fr;
+
+                padding-top: 60px;
+
+                gap: 40px;
+            }
+
+            .featured-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .posts-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .category-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media(max-width:600px) {
+
+            .navbar {
+                padding: 0 20px;
+            }
+
+            .write-btn {
+                display: none;
+            }
+
+            .hero {
+                padding: 55px 20px 45px;
+            }
+
+            .hero h1 {
+                font-size: 47px;
+                letter-spacing: -2.5px;
+            }
+
+            .hero-description {
+                font-size: 15px;
+            }
+
+            .hero-visual {
+                height: 320px;
+            }
+
+            .visual-card {
+                width: 220px;
+            }
+
+            .visual-card.one {
+                left: 15px;
+            }
+
+            .visual-card.two {
+                right: 10px;
+            }
+
+            .container {
+                padding: 0 20px;
+            }
+
+            .section-title {
+                font-size: 25px;
+            }
+
+            .featured-main {
+                min-height: 390px;
+                padding: 25px;
+            }
+
+            .featured-main h2 {
+                font-size: 30px;
+            }
+
+            .posts-section {
+                padding: 65px 0;
+            }
+
+            .posts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .category-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .newsletter {
+                margin: 0 20px 60px;
+
+                padding: 38px 20px;
+            }
+
+            .newsletter h2 {
+                font-size: 28px;
+            }
+
+            .newsletter-form {
+                flex-direction: column;
+
+                background: transparent;
+
+                gap: 10px;
+            }
+
+            .newsletter-form input {
+                background: white;
+
+                border-radius: 25px;
+
+                padding: 13px;
+            }
+
+            .newsletter-form button {
+                width: 100%;
+            }
+
+            footer {
+                flex-direction: column;
+
+                gap: 15px;
+
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================
+     NAVBAR
+========================= -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            <div class="logo-mark">I</div>
+            Inkly
+        </div>
+
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#featured">Featured</a>
+            <a href="#latest">Latest</a>
+            <a href="#categories">Categories</a>
+        </div>
+
+        <div class="nav-actions">
+
+            <button class="icon-btn" onclick="openSearch()">
+                ⌕
+            </button>
+
+            <button class="icon-btn" onclick="toggleTheme()">
+                ◐
+            </button>
+
+            <button class="write-btn">
+                Write
+            </button>
+
+            <button class="icon-btn menu-btn" onclick="toggleMenu()">
+                ☰
+            </button>
+
+        </div>
+
+    </nav>
+
+    <!-- MOBILE MENU -->
+
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#home">Home</a>
+        <a href="#featured">Featured</a>
+        <a href="#latest">Latest</a>
+        <a href="#categories">Categories</a>
+    </div>
+
+
+    <!-- =========================
+     HERO
+========================= -->
+
+    <section class="hero" id="home">
+
+        <div>
+
+            <div class="hero-label">
+                <span class="dot"></span>
+                Stories worth reading
+            </div>
+
+            <h1>
+                Ideas that
+                <span>stay with you.</span>
+            </h1>
+
+            <p class="hero-description">
+                A modern space for thoughtful stories, technology,
+                creativity, productivity and ideas from curious people
+                around the world.
+            </p>
+
+            <div class="hero-actions">
+
+                <button class="primary-btn" onclick="document.getElementById('latest').scrollIntoView()">
+                    Explore stories →
+                </button>
+
+                <button class="secondary-btn" onclick="document.getElementById('categories').scrollIntoView()">
+                    Browse topics
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="hero-visual">
+
+            <div class="visual-card one">
+
+                <small>FEATURED STORY</small>
+
+                <h3>
+                    The future belongs
+                    to curious minds.
+                </h3>
+
+                <div class="visual-line"></div>
+                <div class="visual-line" style="width:70%"></div>
+
+            </div>
+
+
+            <div class="visual-card two">
+
+                <small>NEW ARTICLE</small>
+
+                <h3>
+                    Building better
+                    digital habits.
+                </h3>
+
+                <div class="visual-line"></div>
+                <div class="visual-line" style="width:60%"></div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+     FEATURED
+========================= -->
+
+    <section class="container" id="featured">
+
+        <div class="section-header">
+
+            <h2 class="section-title">
+                Featured stories
+            </h2>
+
+            <a href="#latest" class="view-all">
+                View all →
+            </a>
+
+        </div>
+
+
+        <div class="featured-grid">
+
+            <article class="featured-main">
+
+                <span class="tag">
+                    Technology
+                </span>
+
+                <h2>
+                    Why the best technology
+                    feels almost invisible.
+                </h2>
+
+                <p>
+                    Great technology doesn't demand attention.
+                    It quietly removes friction and makes difficult
+                    things feel simple.
+                </p>
+
+                <div class="post-meta" style="margin-top:22px">
+
+                    <div class="author">
+
+                        <div class="avatar">
+                            AJ
+                        </div>
+
+                        Alex Johnson
+
+                    </div>
+
+                    <span>•</span>
+
+                    <span>8 min read</span>
+
+                </div>
+
+            </article>
+
+
+            <div class="featured-side">
+
+                <article class="mini-card">
+
+                    <span class="tag">
+                        Productivity
+                    </span>
+
+                    <h3>
+                        Stop optimizing your life.
+                        Start designing it.
+                    </h3>
+
+                    <div class="post-meta" style="margin-top:20px">
+                        6 min read
+                    </div>
+
+                </article>
+
+
+                <article class="mini-card">
+
+                    <span class="tag">
+                        Creativity
+                    </span>
+
+                    <h3>
+                        Creativity isn't talent.
+                        It's a system.
+                    </h3>
+
+                    <div class="post-meta" style="margin-top:20px">
+                        5 min read
+                    </div>
+
+                </article>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+     LATEST POSTS
+========================= -->
+
+    <section class="posts-section" id="latest">
+
+        <div class="container">
+
+            <div class="section-header">
+
+                <h2 class="section-title">
+                    Latest stories
+                </h2>
+
+                <a href="#" class="view-all">
+                    See everything →
+                </a>
+
+            </div>
+
+
+            <div class="posts-grid">
+
+
+                <article class="card">
+
+                    <div class="card-image">
+                        01
+                    </div>
+
+                    <div class="card-content">
+
+                        <span class="tag">
+                            Technology
+                        </span>
+
+                        <h3>
+                            What happens when AI becomes everyone's assistant?
+                        </h3>
+
+                        <p class="post-excerpt">
+                            Exploring how intelligent tools are changing
+                            the way people work, learn and create.
+                        </p>
+
+                        <div class="card-footer">
+                            <span>Sam Wilson</span>
+                            <span>7 min</span>
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+                <article class="card">
+
+                    <div class="card-image">
+                        02
+                    </div>
+
+                    <div class="card-content">
+
+                        <span class="tag">
+                            Design
+                        </span>
+
+                        <h3>
+                            Designing interfaces people actually enjoy.
+                        </h3>
+
+                        <p class="post-excerpt">
+                            A practical look at why simplicity,
+                            hierarchy and emotion matter in UI design.
+                        </p>
+
+                        <div class="card-footer">
+                            <span>Maya Chen</span>
+                            <span>5 min</span>
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+                <article class="card">
+
+                    <div class="card-image">
+                        03
+                    </div>
+
+                    <div class="card-content">
+
+                        <span class="tag">
+                            Mindset
+                        </span>
+
+                        <h3>
+                            The quiet power of doing less.
+                        </h3>
+
+                        <p class="post-excerpt">
+                            Sometimes progress isn't about adding another
+                            task. It's about removing the unnecessary ones.
+                        </p>
+
+                        <div class="card-footer">
+                            <span>Daniel Lee</span>
+                            <span>4 min</span>
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+                <article class="card">
+
+                    <div class="card-image">
+                        04
+                    </div>
+
+                    <div class="card-content">
+
+                        <span class="tag">
+                            Career
+                        </span>
+
+                        <h3>
+                            Building skills that compound over time.
+                        </h3>
+
+                        <p class="post-excerpt">
+                            How to think about learning when technology
+                            keeps changing faster than ever.
+                        </p>
+
+                        <div class="card-footer">
+                            <span>Ryan Park</span>
+                            <span>8 min</span>
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+                <article class="card">
+
+                    <div class="card-image">
+                        05
+                    </div>
+
+                    <div class="card-content">
+
+                        <span class="tag">
+                            Science
+                        </span>
+
+                        <h3>
+                            Curiosity is one of our greatest tools.
+                        </h3>
+
+                        <p class="post-excerpt">
+                            Why asking better questions can completely
+                            change the way we understand the world.
+                        </p>
+
+                        <div class="card-footer">
+                            <span>Emma Stone</span>
+                            <span>6 min</span>
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+                <article class="card">
+
+                    <div class="card-image">
+                        06
+                    </div>
+
+                    <div class="card-content">
+
+                        <span class="tag">
+                            Future
+                        </span>
+
+                        <h3>
+                            What will the internet feel like in 2035?
+                        </h3>
+
+                        <p class="post-excerpt">
+                            From spatial computing to intelligent agents,
+                            the next generation of the web may feel very different.
+                        </p>
+
+                        <div class="card-footer">
+                            <span>Chris Martin</span>
+                            <span>9 min</span>
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+     CATEGORIES
+========================= -->
+
+    <section class="categories" id="categories">
+
+        <div class="container">
+
+            <div class="section-header">
+
+                <h2 class="section-title">
+                    Explore topics
+                </h2>
+
+            </div>
+
+
+            <div class="category-grid">
+
+                <div class="category">
+
+                    <div class="category-icon">
+                        ⚡
+                    </div>
+
+                    <h3>Technology</h3>
+
+                    <p>
+                        AI, software and the future.
+                    </p>
+
+                </div>
+
+
+                <div class="category">
+
+                    <div class="category-icon">
+                        ✦
+                    </div>
+
+                    <h3>Creativity</h3>
+
+                    <p>
+                        Ideas, design and inspiration.
+                    </p>
+
+                </div>
+
+
+                <div class="category">
+
+                    <div class="category-icon">
+                        ◌
+                    </div>
+
+                    <h3>Productivity</h3>
+
+                    <p>
+                        Work smarter and better.
+                    </p>
+
+                </div>
+
+
+                <div class="category">
+
+                    <div class="category-icon">
+                        ◎
+                    </div>
+
+                    <h3>Mindset</h3>
+
+                    <p>
+                        Thinking and personal growth.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+     NEWSLETTER
+========================= -->
+
+    <section class="newsletter">
+
+        <h2>
+            Good ideas, delivered.
+        </h2>
+
+        <p>
+            Get thoughtful stories and interesting ideas
+            delivered to your inbox once a week.
+        </p>
+
+
+        <form class="newsletter-form" onsubmit="subscribe(event)">
+
+            <input type="email" placeholder="Your email address" required>
+
+            <button>
+                Subscribe
+            </button>
+
+        </form>
+
+    </section>
+
+
+    <!-- =========================
+     FOOTER
+========================= -->
+
+    <footer>
+
+        <div>
+            © 2026 Inkly. Built for curious minds.
+        </div>
+
+        <div class="footer-links">
+
+            <a href="#">About</a>
+            <a href="#">Privacy</a>
+            <a href="#">Contact</a>
+
+        </div>
+
+    </footer>
+
+
+    <!-- =========================
+     SEARCH
+========================= -->
+
+    <div class="search-overlay" id="searchOverlay" onclick="closeSearch(event)">
+
+        <div class="search-box" onclick="event.stopPropagation()">
+
+            <input type="text" placeholder="Search stories..." autofocus>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        /* =========================
+           THEME
+        ========================= */
+
+        function toggleTheme() {
+
+            document.body.classList.toggle("dark");
+
+            localStorage.setItem(
+                "theme",
+                document.body.classList.contains("dark")
+                    ? "dark"
+                    : "light"
+            );
+
+        }
+
+
+        /* Load saved theme */
+
+        if (localStorage.getItem("theme") === "dark") {
+            document.body.classList.add("dark");
+        }
+
+
+        /* =========================
+           SEARCH
+        ========================= */
+
+        function openSearch() {
+
+            document
+                .getElementById("searchOverlay")
+                .classList.add("active");
+
+            setTimeout(() => {
+
+                document
+                    .querySelector(".search-box input")
+                    .focus();
+
+            }, 100);
+
+        }
+
+
+        function closeSearch(event) {
+
+            if (
+                event.target.id === "searchOverlay"
+            ) {
+
+                document
+                    .getElementById("searchOverlay")
+                    .classList.remove("active");
+
+            }
+
+        }
+
+
+        /* =========================
+           MOBILE MENU
+        ========================= */
+
+        function toggleMenu() {
+
+            document
+                .getElementById("mobileMenu")
+                .classList.toggle("active");
+
+        }
+
+
+        /* =========================
+           NEWSLETTER
+        ========================= */
+
+        function subscribe(event) {
+
+            event.preventDefault();
+
+            const button =
+                event.target.querySelector("button");
+
+            button.innerText = "Subscribed ✓";
+
+            button.disabled = true;
+
+        }
+
+
+        /* =========================
+           KEYBOARD SEARCH
+        ========================= */
+
+        document.addEventListener(
+            "keydown",
+            function (event) {
+
+                if (
+                    event.key === "/" &&
+                    document.activeElement.tagName !== "INPUT"
+                ) {
+
+                    event.preventDefault();
+
+                    openSearch();
+
+                }
+
+                if (event.key === "Escape") {
+
+                    document
+                        .getElementById("searchOverlay")
+                        .classList.remove("active");
+
+                }
+
+            }
+        );
+
+    </script>
+
+</body>
+
+</html>
