@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <style>
+    rect { fill: #11110f; }
+    text { fill: #f5f4f0; }
+    @media (prefers-color-scheme: dark) {
+      rect { fill: #f5f4f0; }
+      text { fill: #11110f; }
+    }
+  </style>
+  <rect width="64" height="64" rx="18"/>
+  <text x="50%" y="54%" text-anchor="middle" dominant-baseline="middle" font-family="'Instrument Serif', Georgia, 'Times New Roman', serif" font-size="44" font-weight="400">L</text>
+</svg>

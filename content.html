@@ -1,0 +1,1900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="The Architecture of Modern Thought — An in-depth essay on cognitive clarity, deep craft, and digital spaces.">
+<title>The Architecture of Modern Thought — Luma</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+<!-- Google Fonts: Medium-grade typography pairing -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&family=Instrument+Serif:ital@0;1&family=Source+Serif+4:ital,opsz,wght@0,8..60,300..800;1,8..60,300..800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* =========================================================
+   MEDIUM-STYLE DESIGN SYSTEM FOR LUMA
+   ========================================================= */
+
+:root {
+    --bg: #ffffff;
+    --bg-secondary: #f9f9f9;
+    --surface: #ffffff;
+    --text-primary: #242424;
+    --text-secondary: #6b6b6b;
+    --text-tertiary: #929292;
+    --border-light: #f2f2f2;
+    --border-subtle: #e6e6e6;
+    --border-strong: #242424;
+    --accent-green: #1a8917;
+    --accent-green-hover: #156d12;
+    --accent-green-light: #e8f3e8;
+    --clap-active: #03a87c;
+    --font-serif: "Source Serif 4", Georgia, Cambria, "Times New Roman", Times, serif;
+    --font-sans: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --font-display: "Instrument Serif", Georgia, serif;
+    --font-mono: "JetBrains Mono", Menlo, Monaco, Consolas, monospace;
+    --article-width: 692px;
+    --breakout-width: 1000px;
+    --nav-height: 57px;
+    --drawer-width: 414px;
+    --transition-fast: 0.15s cubic-bezier(0.2, 0, 0.2, 1);
+    --transition-normal: 0.25s cubic-bezier(0.2, 0, 0.2, 1);
+    --shadow-popover: 0 4px 20px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04);
+    --shadow-drawer: -4px 0 30px rgba(0, 0, 0, 0.12);
+}
+
+[data-theme="dark"] {
+    --bg: #121212;
+    --bg-secondary: #181818;
+    --surface: #1e1e1e;
+    --text-primary: #f0f0f0;
+    --text-secondary: #a0a0a0;
+    --text-tertiary: #6e6e6e;
+    --border-light: #242424;
+    --border-subtle: #2e2e2e;
+    --border-strong: #f0f0f0;
+    --accent-green: #2bb628;
+    --accent-green-hover: #34cf30;
+    --accent-green-light: #162916;
+    --clap-active: #25d366;
+    --shadow-popover: 0 4px 25px rgba(0, 0, 0, 0.5);
+    --shadow-drawer: -4px 0 35px rgba(0, 0, 0, 0.6);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+}
+
+body {
+    background-color: var(--bg);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    line-height: 1.5;
+    transition: background-color var(--transition-normal), color var(--transition-normal);
+}
+
+/* Reading Progress Bar */
+#readingProgress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 2.5px;
+    width: 0%;
+    background-color: var(--accent-green);
+    z-index: 1100;
+    transition: width 0.1s ease-out;
+}
+
+/* =========================================================
+   HEADER / NAVBAR (Classic Medium Editorial Bar)
+   ========================================================= */
+
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: var(--bg);
+    border-bottom: 1px solid var(--border-light);
+    height: var(--nav-height);
+    transition: background-color var(--transition-normal), border-color var(--transition-normal);
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.brand-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: inherit;
+}
+
+.brand-badge {
+    width: 32px;
+    height: 32px;
+    background: var(--text-primary);
+    color: var(--bg);
+    border-radius: 8px;
+    display: grid;
+    place-items: center;
+    font-family: var(--font-display);
+    font-size: 21px;
+    font-weight: bold;
+    user-select: none;
+}
+
+.brand-title {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    font-size: 21px;
+    letter-spacing: -0.03em;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    background: var(--bg-secondary);
+    border: 1px solid transparent;
+    border-radius: 20px;
+    padding: 7px 14px;
+    gap: 8px;
+    transition: border-color var(--transition-fast), background var(--transition-fast);
+}
+
+.search-box:focus-within {
+    border-color: var(--border-subtle);
+    background: var(--bg);
+}
+
+.search-box svg {
+    width: 16px;
+    height: 16px;
+    fill: var(--text-secondary);
+}
+
+.search-box input {
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 13px;
+    color: var(--text-primary);
+    width: 160px;
+}
+
+.search-box input::placeholder {
+    color: var(--text-tertiary);
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.write-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-secondary);
+    font-size: 14px;
+    text-decoration: none;
+    font-weight: 400;
+    transition: color var(--transition-fast);
+}
+
+.write-link:hover {
+    color: var(--text-primary);
+}
+
+.write-link svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+}
+
+.icon-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px;
+    border-radius: 50%;
+    transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.icon-btn:hover {
+    color: var(--text-primary);
+    background-color: var(--bg-secondary);
+}
+
+.icon-btn svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+}
+
+.user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+    border: 1px solid var(--border-subtle);
+}
+
+.upgrade-btn {
+    background: var(--accent-green);
+    color: #ffffff;
+    border: none;
+    padding: 6px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    border-radius: 18px;
+    cursor: pointer;
+    transition: background-color var(--transition-fast);
+}
+
+.upgrade-btn:hover {
+    background: var(--accent-green-hover);
+}
+
+/* =========================================================
+   MAIN ARTICLE CONTAINER
+   ========================================================= */
+
+.article-page {
+    padding-top: 48px;
+    padding-bottom: 96px;
+}
+
+.article-header {
+    max-width: var(--article-width);
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.member-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 14px;
+    font-weight: 500;
+}
+
+.member-badge svg {
+    width: 14px;
+    height: 14px;
+    fill: #e09819;
+}
+
+.article-title {
+    font-family: var(--font-serif);
+    font-size: clamp(34px, 4.4vw, 44px);
+    font-weight: 700;
+    line-height: 1.18;
+    letter-spacing: -0.022em;
+    color: var(--text-primary);
+    margin-bottom: 14px;
+}
+
+.article-subtitle {
+    font-family: var(--font-serif);
+    font-size: clamp(19px, 2.3vw, 22px);
+    font-weight: 400;
+    color: var(--text-secondary);
+    line-height: 1.45;
+    margin-bottom: 28px;
+}
+
+/* =========================================================
+   AUTHOR ROW & METADATA
+   ========================================================= */
+
+.author-meta-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding-bottom: 24px;
+}
+
+.author-info {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.author-portrait {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.author-details {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.author-name-line {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.author-name {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--text-primary);
+    text-decoration: none;
+}
+
+.author-name:hover {
+    text-decoration: underline;
+}
+
+.follow-btn {
+    background: transparent;
+    border: none;
+    color: var(--accent-green);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 0;
+    transition: color var(--transition-fast);
+}
+
+.follow-btn.following {
+    color: var(--text-secondary);
+}
+
+.follow-btn:hover {
+    color: var(--accent-green-hover);
+}
+
+.publication-info {
+    font-size: 13px;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.pub-link {
+    color: inherit;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.pub-link:hover {
+    text-decoration: underline;
+}
+
+.meta-details {
+    font-size: 13px;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.meta-dot {
+    font-size: 10px;
+    color: var(--text-tertiary);
+}
+
+.listen-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    transition: color var(--transition-fast);
+}
+
+.listen-btn:hover {
+    color: var(--text-primary);
+}
+
+.listen-btn svg {
+    width: 14px;
+    height: 14px;
+    fill: currentColor;
+}
+
+/* =========================================================
+   ENGAGEMENT ACTION BARS (Top & Bottom)
+   ========================================================= */
+
+.action-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid var(--border-light);
+    border-bottom: 1px solid var(--border-light);
+    padding: 10px 0;
+    margin-bottom: 40px;
+    user-select: none;
+}
+
+.action-bar-left,
+.action-bar-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.action-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 400;
+    padding: 4px 6px;
+    border-radius: 4px;
+    position: relative;
+    transition: color var(--transition-fast);
+}
+
+.action-btn:hover {
+    color: var(--text-primary);
+}
+
+.action-btn svg {
+    width: 21px;
+    height: 21px;
+    fill: currentColor;
+    transition: transform var(--transition-fast);
+}
+
+.action-btn.clapped {
+    color: var(--clap-active);
+}
+
+.action-btn.clapped svg {
+    transform: scale(1.1);
+}
+
+.action-btn.saved svg {
+    fill: var(--text-primary);
+}
+
+/* Floating +1 Clap burst */
+.clap-bubble {
+    position: absolute;
+    top: -24px;
+    left: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    background: var(--clap-active);
+    color: #ffffff;
+    padding: 2px 7px;
+    border-radius: 12px;
+    pointer-events: none;
+    animation: bubbleUp 0.65s ease-out forwards;
+}
+
+@keyframes bubbleUp {
+    0% { opacity: 0; transform: translateY(8px) scale(0.7); }
+    30% { opacity: 1; transform: translateY(-4px) scale(1.05); }
+    100% { opacity: 0; transform: translateY(-20px) scale(0.9); }
+}
+
+/* =========================================================
+   FEATURED / HERO IMAGE (Medium Breakout Style)
+   ========================================================= */
+
+.article-hero-figure {
+    max-width: var(--breakout-width);
+    margin: 0 auto 48px auto;
+    padding: 0 20px;
+}
+
+.article-hero-img-wrap {
+    width: 100%;
+    border-radius: 4px;
+    overflow: hidden;
+    background-color: var(--bg-secondary);
+    aspect-ratio: 16 / 9;
+    max-height: 520px;
+}
+
+.article-hero-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.figure-caption {
+    font-size: 13px;
+    color: var(--text-secondary);
+    text-align: center;
+    margin-top: 10px;
+    font-family: var(--font-sans);
+    line-height: 1.4;
+}
+
+.figure-caption a {
+    color: var(--text-secondary);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+/* =========================================================
+   ARTICLE CONTENT (Medium's Signature Reading Experience)
+   ========================================================= */
+
+.article-body {
+    max-width: var(--article-width);
+    margin: 0 auto;
+    padding: 0 20px;
+    font-family: var(--font-serif);
+    font-size: 20px;
+    line-height: 1.78;
+    letter-spacing: -0.003em;
+    color: var(--text-primary);
+}
+
+.article-body p {
+    margin-bottom: 28px;
+    word-break: break-word;
+}
+
+/* Drop Cap on initial paragraph */
+.article-body p.lead::first-letter {
+    font-family: var(--font-display);
+    font-size: 5.2rem;
+    float: left;
+    line-height: 0.82;
+    padding-right: 14px;
+    padding-top: 6px;
+    color: var(--text-primary);
+}
+
+.article-body h2 {
+    font-family: var(--font-sans);
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.018em;
+    margin-top: 48px;
+    margin-bottom: 18px;
+    color: var(--text-primary);
+}
+
+.article-body h3 {
+    font-family: var(--font-sans);
+    font-size: 21px;
+    font-weight: 600;
+    line-height: 1.35;
+    letter-spacing: -0.012em;
+    margin-top: 36px;
+    margin-bottom: 14px;
+    color: var(--text-primary);
+}
+
+.article-body a {
+    color: var(--text-primary);
+    text-decoration: underline;
+    text-decoration-color: var(--text-tertiary);
+    text-underline-offset: 3px;
+    transition: text-decoration-color var(--transition-fast);
+}
+
+.article-body a:hover {
+    text-decoration-color: var(--text-primary);
+}
+
+/* Medium Blockquote Style */
+.article-body blockquote {
+    border-left: 3px solid var(--text-primary);
+    padding-left: 22px;
+    margin: 36px 0;
+    font-style: italic;
+    color: var(--text-primary);
+    font-size: 21px;
+    line-height: 1.6;
+}
+
+/* Pullquote (Highlight thought) */
+.article-body .pullquote {
+    border-left: none;
+    text-align: center;
+    font-family: var(--font-display);
+    font-size: 32px;
+    line-height: 1.25;
+    font-style: italic;
+    color: var(--text-primary);
+    margin: 48px 0;
+    padding: 0 24px;
+}
+
+.article-body .pullquote::before {
+    content: "“";
+    font-size: 48px;
+    display: block;
+    line-height: 1;
+    color: var(--text-tertiary);
+}
+
+/* Medium Inline Image Breakout */
+.inline-figure {
+    margin: 44px 0;
+}
+
+.inline-figure img {
+    width: 100%;
+    border-radius: 4px;
+    display: block;
+}
+
+/* Three Dots Divider */
+.article-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin: 48px 0;
+}
+
+.article-divider span {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background-color: var(--text-tertiary);
+    display: inline-block;
+}
+
+/* Code Snippet Block */
+.code-block {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-light);
+    border-radius: 6px;
+    padding: 18px 22px;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    line-height: 1.6;
+    overflow-x: auto;
+    margin: 32px 0;
+    color: var(--text-primary);
+}
+
+.code-block .token-keyword { color: #d73a49; }
+.code-block .token-func { color: #6f42c1; }
+.code-block .token-str { color: #032f62; }
+.code-block .token-comment { color: var(--text-tertiary); font-style: italic; }
+
+/* Highlightable text */
+.highlight-mark {
+    background-color: #fef08a;
+    color: #1e1e1e;
+    padding: 1px 3px;
+    border-radius: 2px;
+}
+
+[data-theme="dark"] .highlight-mark {
+    background-color: #854d0e;
+    color: #ffffff;
+}
+
+/* =========================================================
+   ARTICLE FOOTER & TOPIC TAGS
+   ========================================================= */
+
+.article-footer {
+    max-width: var(--article-width);
+    margin: 48px auto 0 auto;
+    padding: 0 20px;
+}
+
+.topic-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 36px;
+}
+
+.tag-pill {
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 20px;
+    text-decoration: none;
+    transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.tag-pill:hover {
+    background: var(--border-subtle);
+    color: var(--text-primary);
+}
+
+/* =========================================================
+   AUTHOR SPOTLIGHT CARD
+   ========================================================= */
+
+.author-card-box {
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    padding: 32px;
+    display: flex;
+    gap: 24px;
+    margin-top: 48px;
+    margin-bottom: 60px;
+    border: 1px solid var(--border-light);
+}
+
+.author-card-avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.author-card-content {
+    flex-grow: 1;
+}
+
+.author-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.author-card-name {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.author-card-bio {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.55;
+    margin-bottom: 14px;
+}
+
+.author-card-stats {
+    font-size: 13px;
+    color: var(--text-tertiary);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+/* =========================================================
+   MORE FROM LUMA (Editorial Recommendations)
+   ========================================================= */
+
+.more-section {
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border-light);
+    padding: 60px 0;
+}
+
+.more-container {
+    max-width: var(--breakout-width);
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.more-heading {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.more-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 28px;
+}
+
+.more-card {
+    background: var(--bg);
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.more-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-popover);
+}
+
+.more-card-img {
+    height: 170px;
+    width: 100%;
+    object-fit: cover;
+    background: #e2e2e2;
+}
+
+.more-card-body {
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.more-card-author {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: 10px;
+}
+
+.more-card-author img {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+
+.more-card-title {
+    font-family: var(--font-serif);
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 8px;
+    color: var(--text-primary);
+}
+
+.more-card-snippet {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-bottom: 14px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.more-card-footer {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--text-tertiary);
+}
+
+/* =========================================================
+   RESPONSES DRAWER (Medium-Style Comments Panel)
+   ========================================================= */
+
+.drawer-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--transition-normal);
+}
+
+.drawer-backdrop.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.responses-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: min(var(--drawer-width), 100vw);
+    height: 100vh;
+    background: var(--bg);
+    box-shadow: var(--shadow-drawer);
+    z-index: 2100;
+    transform: translateX(100%);
+    transition: transform var(--transition-normal);
+    display: flex;
+    flex-direction: column;
+}
+
+.responses-drawer.active {
+    transform: translateX(0);
+}
+
+.drawer-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border-light);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.drawer-header h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.drawer-body {
+    padding: 24px;
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
+.comment-editor {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+    padding: 14px;
+    margin-bottom: 28px;
+}
+
+.comment-author-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.comment-author-row img {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+}
+
+.comment-author-row span {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.comment-textarea {
+    width: 100%;
+    border: none;
+    background: transparent;
+    outline: none;
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--text-primary);
+    resize: vertical;
+    min-height: 70px;
+}
+
+.comment-textarea::placeholder {
+    color: var(--text-tertiary);
+}
+
+.comment-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.comment-cancel {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 13px;
+    cursor: pointer;
+    padding: 6px 12px;
+}
+
+.comment-submit {
+    background: var(--accent-green);
+    color: #ffffff;
+    border: none;
+    border-radius: 16px;
+    padding: 6px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color var(--transition-fast);
+}
+
+.comment-submit:hover {
+    background: var(--accent-green-hover);
+}
+
+.comments-list {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.comment-item {
+    border-bottom: 1px solid var(--border-light);
+    padding-bottom: 20px;
+}
+
+.comment-item-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.comment-user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.comment-user img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+}
+
+.comment-user-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.comment-user-date {
+    font-size: 12px;
+    color: var(--text-tertiary);
+}
+
+.comment-content {
+    font-size: 14px;
+    color: var(--text-primary);
+    line-height: 1.55;
+    margin-bottom: 10px;
+}
+
+.comment-footer-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.comment-clap-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.comment-clap-btn svg {
+    width: 15px;
+    height: 15px;
+    fill: currentColor;
+}
+
+/* =========================================================
+   FLOATING BOTTOM BAR (Medium-style dynamic reading bar)
+   ========================================================= */
+
+.floating-bottom-bar {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(120%);
+    background: var(--bg);
+    border: 1px solid var(--border-subtle);
+    box-shadow: var(--shadow-popover);
+    border-radius: 30px;
+    padding: 7px 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    z-index: 900;
+    transition: transform var(--transition-normal);
+}
+
+.floating-bottom-bar.visible {
+    transform: translateX(-50%) translateY(0);
+}
+
+.floating-divider {
+    height: 18px;
+    width: 1px;
+    background-color: var(--border-subtle);
+}
+
+/* Toast Message */
+.toast-notice {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: var(--text-primary);
+    color: var(--bg);
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    box-shadow: var(--shadow-popover);
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.25s, transform 0.25s;
+    pointer-events: none;
+    z-index: 3000;
+}
+
+.toast-notice.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* =========================================================
+   RESPONSIVE DESIGN
+   ========================================================= */
+
+@media (max-width: 768px) {
+    .search-box {
+        display: none;
+    }
+    
+    .article-title {
+        font-size: 30px;
+    }
+    
+    .article-subtitle {
+        font-size: 18px;
+    }
+    
+    .article-body {
+        font-size: 18px;
+        line-height: 1.72;
+    }
+    
+    .author-card-box {
+        flex-direction: column;
+        padding: 22px;
+    }
+    
+    .floating-bottom-bar {
+        width: calc(100% - 32px);
+        justify-content: space-around;
+        bottom: 16px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Reading Progress indicator -->
+<div id="readingProgress"></div>
+
+<!-- =========================================================
+     SITE HEADER (Medium Top Navigation)
+     ========================================================= -->
+<header class="site-header">
+    <div class="header-container">
+        <div class="header-left">
+            <a href="index.html" class="brand-link" title="Return to Luma Home">
+                <div class="brand-badge">L</div>
+                <span class="brand-title">Luma</span>
+            </a>
+
+            <div class="search-box">
+                <svg viewBox="0 0 24 24"><path d="M10 2.5a7.5 7.5 0 0 1 5.964 12.048l4.744 4.744a1 1 0 0 1-1.414 1.414l-4.744-4.744A7.5 7.5 0 1 1 10 2.5zm0 2a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11z"/></svg>
+                <input type="text" placeholder="Search Luma...">
+            </div>
+        </div>
+
+        <div class="header-right">
+            <a href="index.html#publish" class="write-link" title="Write a story">
+                <svg viewBox="0 0 24 24"><path d="M14.06 9.02l.92.92L5.92 19H5v-.92l9.06-9.06M17.66 3c-.25 0-.51.1-.7.29l-1.83 1.83 3.75 3.75 1.83-1.83a.996.996 0 0 0 0-1.41l-2.34-2.34c-.2-.2-.45-.29-.71-.29zm-3.6 3.19L3 17.25V21h3.75L17.81 9.94l-3.75-3.75z"/></svg>
+                <span>Write</span>
+            </a>
+
+            <!-- Theme Toggle -->
+            <button class="icon-btn" id="themeToggleBtn" title="Toggle Light/Dark Theme" aria-label="Toggle Theme">
+                <svg id="themeIconSun" style="display:none;" viewBox="0 0 24 24"><path d="M12 4.5a1 1 0 0 1 1-1h0a1 1 0 0 1 1 1V6a1 1 0 0 1-1 1h0a1 1 0 0 1-1-1V4.5zM12 17a1 1 0 0 1 1 1v1.5a1 1 0 0 1-1 1h0a1 1 0 0 1-1-1V18a1 1 0 0 1 1-1zm8.5-6a1 1 0 0 1 1 1h0a1 1 0 0 1-1 1H19a1 1 0 0 1-1-1h0a1 1 0 0 1 1-1h1.5zM6 12a1 1 0 0 1-1 1H3.5a1 1 0 0 1-1-1h0a1 1 0 0 1 1-1H5a1 1 0 0 1 1 1zm11.364-5.364a1 1 0 0 1 1.414 0h0a1 1 0 0 1 0 1.414L17.72 9.108a1 1 0 0 1-1.415-1.414l1.06-1.058zM6.636 17.364a1 1 0 0 1 1.414 0h0a1 1 0 0 1 0 1.414l-1.06 1.06a1 1 0 0 1-1.414-1.414l1.06-1.06zm12.142 1.414a1 1 0 0 1-1.414 1.414l-1.06-1.06a1 1 0 0 1 1.414-1.414l1.06 1.06zM7.697 7.697a1 1 0 0 1-1.414-1.414l1.06-1.06a1 1 0 0 1 1.414 1.414l-1.06 1.06zM12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"/></svg>
+                <svg id="themeIconMoon" viewBox="0 0 24 24"><path d="M12.3 2a10 10 0 0 0-.19 20 10.04 10.04 0 0 0 9.89-7.58 1 1 0 0 0-1.21-1.22 8 8 0 1 1-9.7-9.7 1 1 0 0 0-1.21-1.22A10.1 10.1 0 0 0 12.3 2z"/></svg>
+            </button>
+
+            <!-- Notifications -->
+            <button class="icon-btn" title="Notifications" aria-label="Notifications">
+                <svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"/></svg>
+            </button>
+
+            <button class="upgrade-btn">Member</button>
+
+            <img class="user-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80" alt="User Profile" title="Account profile">
+        </div>
+    </div>
+</header>
+
+<!-- =========================================================
+     ARTICLE READING CONTENT
+     ========================================================= -->
+<main class="article-page">
+    <article>
+        <!-- Header -->
+        <header class="article-header">
+            <div class="member-badge">
+                <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                <span>Member-only story</span>
+            </div>
+
+            <h1 class="article-title">The Quiet Architecture of Deep Work in an Era of Cognitive Fragmentation</h1>
+
+            <p class="article-subtitle">
+                Why the future of software, writing, and intellectual mastery belongs not to faster tooling, but to spaces designed for sustained contemplation.
+            </p>
+
+            <!-- Author info line -->
+            <div class="author-meta-row">
+                <div class="author-info">
+                    <img class="author-portrait" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80" alt="Julian Vance">
+                    <div class="author-details">
+                        <div class="author-name-line">
+                            <a href="#author" class="author-name">Julian Vance</a>
+                            <button class="follow-btn" id="topFollowBtn">Follow</button>
+                        </div>
+                        <div class="publication-info">
+                            <span>Published in</span>
+                            <a href="index.html" class="pub-link">Luma Editorial</a>
+                        </div>
+                        <div class="meta-details">
+                            <span>8 min read</span>
+                            <span class="meta-dot">·</span>
+                            <span>Sep 21, 2026</span>
+                            <span class="meta-dot">·</span>
+                            <button class="listen-btn" id="listenBtn">
+                                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                <span>Listen</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Top Action Bar -->
+            <div class="action-bar" id="topActionBar">
+                <div class="action-bar-left">
+                    <button class="action-btn clap-action-btn" title="Clap for this story">
+                        <svg viewBox="0 0 24 24"><path d="M18.8 8.41a3.53 3.53 0 0 0-3.32-2.31h-.34a3.5 3.5 0 0 0-2.88 1.5 3.5 3.5 0 0 0-2.89-1.5h-.34A3.53 3.53 0 0 0 5.7 8.41c-.96 1.77-.6 4.07.87 5.56l5.77 5.86a.996.996 0 0 0 1.41 0l5.77-5.86c1.47-1.49 1.83-3.79.87-5.56zm-1.89 4.15L12 17.55l-4.91-4.99c-.93-.94-1.16-2.39-.56-3.51.54-1.02 1.6-1.57 2.76-1.46 1.13.11 2.07.89 2.42 1.99.16.49.88.49 1.04 0 .35-1.1 1.29-1.88 2.42-1.99 1.16-.11 2.22.44 2.76 1.46.6 1.12.37 2.57-.56 3.51z"/></svg>
+                        <span class="clap-count">2.8K</span>
+                    </button>
+
+                    <button class="action-btn comment-action-btn" title="View responses">
+                        <svg viewBox="0 0 24 24"><path d="M18 2H6c-1.1 0-2 .9-2 2v16l4-4h10c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 12H7.17L6 15.17V4h12v10z"/></svg>
+                        <span class="comment-count">48</span>
+                    </button>
+                </div>
+
+                <div class="action-bar-right">
+                    <button class="action-btn bookmark-action-btn" title="Save story">
+                        <svg viewBox="0 0 24 24"><path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2zm0 15l-5-2.18L7 18V5h10v13z"/></svg>
+                    </button>
+
+                    <button class="action-btn share-action-btn" title="Copy share link">
+                        <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92c0-1.61-1.31-2.92-2.92-2.92z"/></svg>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Hero Breakout Figure -->
+        <figure class="article-hero-figure">
+            <div class="article-hero-img-wrap">
+                <img src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=1600&q=85" alt="Clean minimalist desk with notebook and warm ambient lighting">
+            </div>
+            <figcaption class="figure-caption">
+                The workspace as an intentional cognitive sanctuary. Photograph by Andrew Neel via Unsplash.
+            </figcaption>
+        </figure>
+
+        <!-- Main Body Prose -->
+        <div class="article-body">
+            <p class="lead">
+                Every revolution in intellectual history began not with a surplus of bandwidth, but with a deliberate reduction of noise. When Immanuel Kant took his afternoon walks through Königsberg, he was not scheduling an exercise break between Slack threads; he was maintaining the structural boundary between observation and synthesis.
+            </p>
+
+            <p>
+                Today, our intellectual tools resemble bustling trading floors rather than writing studios. The average knowledge worker checks communication channels every six minutes. We have engineered environments that are astonishingly adept at dispatching micro-transactions of information, yet fundamentally hostile to the germination of original insight.
+            </p>
+
+            <h2>The Illusion of Acceleration</h2>
+
+            <p>
+                Speed is frequently mistaken for velocity. Velocity requires direction; speed merely requires friction. When we look at contemporary software platforms, the primary design metric has been reduction of latency: faster notifications, automated completions, omnipresent feeds.
+            </p>
+
+            <blockquote class="pullquote">
+                The greatest danger in times of turbulence is not the turbulence; it is to act with yesterday’s logic.
+            </blockquote>
+
+            <p>
+                Yet the most profound breakthroughs in science, architecture, and literature do not occur along low-latency pathways. They demand an uncomfortable incubation period—what cognitive scientists refer to as <span class="highlight-mark">semantic consolidation</span>. It is during periods of apparent inactivity that the human subconscious reorganizes unstructured knowledge into novel paradigms.
+            </p>
+
+            <div class="article-divider">
+                <span></span><span></span><span></span>
+            </div>
+
+            <h2>Designing for Cognitive Depth</h2>
+
+            <p>
+                To build publishing environments and workspaces that nurture genuine thought, we must reconsider three foundational tenets:
+            </p>
+
+            <p>
+                <strong>1. Asynchronous Sanctuary:</strong> Communication should never be default-synchronous. The presumption that any inquiry warrants an immediate pulse of attention is a cultural flaw masquerading as responsiveness.
+            </p>
+
+            <p>
+                <strong>2. Monastic Typography:</strong> Type should not compete with the idea it conveys. When reading an essay, the typographic scale, column width, and vertical cadence must recede into the periphery, leaving only the author’s voice and the reader’s inner dialogue.
+            </p>
+
+            <!-- Inline Graphic / Visual Break -->
+            <figure class="inline-figure">
+                <img src="https://images.unsplash.com/photo-1457369804613-52c61a468e7d?auto=format&fit=crop&w=1200&q=80" alt="Pages of an open book catching natural light">
+                <figcaption class="figure-caption">Books remain the most durable information technology ever designed because their boundaries are absolute.</figcaption>
+            </figure>
+
+            <p>
+                <strong>3. Structural Finite-ness:</strong> Feeds that scroll to infinity reinforce behavioral loops of vigilance. By contrast, an essay with a defined beginning, a carefully orchestrated exposition, and a decisive conclusion provides closure—the prerequisite for reflection.
+            </p>
+
+            <h2>A Model of Mindful Architecture</h2>
+
+            <p>
+                Consider how a composer balances density and silence. In software and writing alike, the negative space defines the composition:
+            </p>
+
+            <div class="code-block">
+<span class="token-comment">// Principles of quiet intellectual software</span>
+<span class="token-keyword">interface</span> <span class="token-func">CognitiveEnvironment</span> {
+    <span class="token-func">cadence</span>: <span class="token-str">"unhurried"</span>;
+    <span class="token-func">telemetry</span>: <span class="token-str">"minimal"</span>;
+    <span class="token-func">retentionRate</span>: <span class="token-str">"lasting-ideas"</span>;
+    <span class="token-func">evaluate</span>(): <span class="token-keyword">Promise</span>&lt;<span class="token-str">Insight</span>&gt;;
+}
+            </div>
+
+            <p>
+                As we step deeper into an era dominated by automated synthesis and algorithmic abundance, human discrimination becomes the rarest commodity. The platforms that matter will not be those that produce the highest volume of content, but those that foster the conditions under which authentic wisdom can take root.
+            </p>
+
+            <p>
+                When you close this window, do not reflexively open another. Give the sentence thirty seconds to echo.
+            </p>
+        </div>
+
+        <!-- Article Footer / Topic Tags -->
+        <footer class="article-footer">
+            <div class="topic-tags">
+                <a href="#tag" class="tag-pill">Philosophy</a>
+                <a href="#tag" class="tag-pill">Deep Work</a>
+                <a href="#tag" class="tag-pill">Design Systems</a>
+                <a href="#tag" class="tag-pill">Productivity</a>
+                <a href="#tag" class="tag-pill">Technology</a>
+            </div>
+
+            <!-- Bottom Action Bar -->
+            <div class="action-bar">
+                <div class="action-bar-left">
+                    <button class="action-btn clap-action-btn" title="Clap for this story">
+                        <svg viewBox="0 0 24 24"><path d="M18.8 8.41a3.53 3.53 0 0 0-3.32-2.31h-.34a3.5 3.5 0 0 0-2.88 1.5 3.5 3.5 0 0 0-2.89-1.5h-.34A3.53 3.53 0 0 0 5.7 8.41c-.96 1.77-.6 4.07.87 5.56l5.77 5.86a.996.996 0 0 0 1.41 0l5.77-5.86c1.47-1.49 1.83-3.79.87-5.56zm-1.89 4.15L12 17.55l-4.91-4.99c-.93-.94-1.16-2.39-.56-3.51.54-1.02 1.6-1.57 2.76-1.46 1.13.11 2.07.89 2.42 1.99.16.49.88.49 1.04 0 .35-1.1 1.29-1.88 2.42-1.99 1.16-.11 2.22.44 2.76 1.46.6 1.12.37 2.57-.56 3.51z"/></svg>
+                        <span class="clap-count">2.8K</span>
+                    </button>
+
+                    <button class="action-btn comment-action-btn" title="View responses">
+                        <svg viewBox="0 0 24 24"><path d="M18 2H6c-1.1 0-2 .9-2 2v16l4-4h10c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 12H7.17L6 15.17V4h12v10z"/></svg>
+                        <span class="comment-count">48</span>
+                    </button>
+                </div>
+
+                <div class="action-bar-right">
+                    <button class="action-btn bookmark-action-btn" title="Save story">
+                        <svg viewBox="0 0 24 24"><path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2zm0 15l-5-2.18L7 18V5h10v13z"/></svg>
+                    </button>
+
+                    <button class="action-btn share-action-btn" title="Copy share link">
+                        <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92c0-1.61-1.31-2.92-2.92-2.92z"/></svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Author Bio Spotlight Card -->
+            <div class="author-card-box" id="author">
+                <img class="author-card-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80" alt="Julian Vance">
+                <div class="author-card-content">
+                    <div class="author-card-top">
+                        <div>
+                            <div class="author-card-name">Written by Julian Vance</div>
+                            <div class="author-card-stats">18.4K Followers · Staff Editor at Luma</div>
+                        </div>
+                        <button class="follow-btn" id="bottomFollowBtn">Follow</button>
+                    </div>
+                    <p class="author-card-bio">
+                        Writing on cognitive ergonomics, human-computer interfaces, and the philosophy of creative craft. Author of <em>The Solitary Codex</em>.
+                    </p>
+                </div>
+            </div>
+        </footer>
+    </article>
+</main>
+
+<!-- =========================================================
+     RECOMMENDED STORIES (Medium "More From" Section)
+     ========================================================= -->
+<section class="more-section">
+    <div class="more-container">
+        <div class="more-heading">
+            <span>More from Luma</span>
+            <a href="index.html" style="font-size:13px; color:var(--accent-green); text-decoration:none; font-weight:600;">See all stories &rarr;</a>
+        </div>
+
+        <div class="more-grid">
+            <!-- Card 1 -->
+            <a href="content.html" class="more-card">
+                <img class="more-card-img" src="https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?auto=format&fit=crop&w=600&q=80" alt="Abstract architectural spiral">
+                <div class="more-card-body">
+                    <div class="more-card-author">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=60&q=80" alt="Elena Rostova">
+                        <span>Elena Rostova in Luma</span>
+                    </div>
+                    <h4 class="more-card-title">The Geometry of Silence: Why Great Products Feel Weightless</h4>
+                    <p class="more-card-snippet">Examining Dieter Rams, Steve Jobs, and the unspoken discipline of omission in modern industrial design.</p>
+                    <div class="more-card-footer">
+                        <span>5 min read · Sep 19</span>
+                        <span>👏 1.4K</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Card 2 -->
+            <a href="content.html" class="more-card">
+                <img class="more-card-img" src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80" alt="Lines of matrix green terminal data">
+                <div class="more-card-body">
+                    <div class="more-card-author">
+                        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=60&q=80" alt="Marcus Chen">
+                        <span>Marcus Chen</span>
+                    </div>
+                    <h4 class="more-card-title">Beyond The LLM Interface: What Comes After the Chatbox</h4>
+                    <p class="more-card-snippet">Conversational prompts are a transient intermediary. The true revolution lies in generative canvas architectures.</p>
+                    <div class="more-card-footer">
+                        <span>9 min read · Sep 18</span>
+                        <span>👏 3.2K</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Card 3 -->
+            <a href="content.html" class="more-card">
+                <img class="more-card-img" src="https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=600&q=80" alt="Ethereal sun rays piercing deep forest mist">
+                <div class="more-card-body">
+                    <div class="more-card-author">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=60&q=80" alt="Sarah Lin">
+                        <span>Sarah Lin</span>
+                    </div>
+                    <h4 class="more-card-title">The Ecology of Creative Burnout</h4>
+                    <p class="more-card-snippet">Creative depletion is rarely about working too hard; it is almost always about creating without receiving nourishment.</p>
+                    <div class="more-card-footer">
+                        <span>6 min read · Sep 15</span>
+                        <span>👏 940</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- =========================================================
+     MEDIUM RESPONSES DRAWER (Sidebar slide-over comments)
+     ========================================================= -->
+<div class="drawer-backdrop" id="drawerBackdrop"></div>
+
+<aside class="responses-drawer" id="responsesDrawer" aria-label="Article Responses">
+    <div class="drawer-header">
+        <h3>Responses (<span id="drawerCommentCount">3</span>)</h3>
+        <button class="icon-btn" id="closeDrawerBtn" aria-label="Close Responses">
+            <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+    </div>
+
+    <div class="drawer-body">
+        <!-- New Comment Editor -->
+        <div class="comment-editor">
+            <div class="comment-author-row">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=80&q=80" alt="You">
+                <span>You</span>
+            </div>
+            <textarea class="comment-textarea" id="newCommentInput" placeholder="What are your thoughts?"></textarea>
+            <div class="comment-actions">
+                <button class="comment-cancel" id="cancelCommentBtn">Cancel</button>
+                <button class="comment-submit" id="submitCommentBtn">Respond</button>
+            </div>
+        </div>
+
+        <!-- Comments Stream -->
+        <div class="comments-list" id="commentsList">
+            <!-- Comment 1 -->
+            <div class="comment-item">
+                <div class="comment-item-header">
+                    <div class="comment-user">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=80&q=80" alt="Dr. Maya Patel">
+                        <div>
+                            <div class="comment-user-name">Dr. Maya Patel</div>
+                            <div class="comment-user-date">2 days ago</div>
+                        </div>
+                    </div>
+                </div>
+                <p class="comment-content">
+                    The distinction you draw between latency and velocity is brilliant. In neuroscience, we consistently observe that high-frequency task switching degrades hippocampal consolidation. Thank you for putting words to what so many of us feel.
+                </p>
+                <div class="comment-footer-actions">
+                    <button class="comment-clap-btn">
+                        <svg viewBox="0 0 24 24"><path d="M18.8 8.41a3.53 3.53 0 0 0-3.32-2.31h-.34a3.5 3.5 0 0 0-2.88 1.5 3.5 3.5 0 0 0-2.89-1.5h-.34A3.53 3.53 0 0 0 5.7 8.41c-.96 1.77-.6 4.07.87 5.56l5.77 5.86a.996.996 0 0 0 1.41 0l5.77-5.86c1.47-1.49 1.83-3.79.87-5.56z"/></svg>
+                        <span>84</span>
+                    </button>
+                    <button class="comment-cancel" style="padding:0;">Reply</button>
+                </div>
+            </div>
+
+            <!-- Comment 2 -->
+            <div class="comment-item">
+                <div class="comment-item-header">
+                    <div class="comment-user">
+                        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=80&q=80" alt="Thomas Lindqvist">
+                        <div>
+                            <div class="comment-user-name">Thomas Lindqvist</div>
+                            <div class="comment-user-date">Yesterday</div>
+                        </div>
+                    </div>
+                </div>
+                <p class="comment-content">
+                    "When you close this window, do not reflexively open another." That line caught me off guard. Literally guilty of having 38 tabs open right now. Closing 37 of them immediately.
+                </p>
+                <div class="comment-footer-actions">
+                    <button class="comment-clap-btn">
+                        <svg viewBox="0 0 24 24"><path d="M18.8 8.41a3.53 3.53 0 0 0-3.32-2.31h-.34a3.5 3.5 0 0 0-2.88 1.5 3.5 3.5 0 0 0-2.89-1.5h-.34A3.53 3.53 0 0 0 5.7 8.41c-.96 1.77-.6 4.07.87 5.56l5.77 5.86a.996.996 0 0 0 1.41 0l5.77-5.86c1.47-1.49 1.83-3.79.87-5.56z"/></svg>
+                        <span>42</span>
+                    </button>
+                    <button class="comment-cancel" style="padding:0;">Reply</button>
+                </div>
+            </div>
+
+            <!-- Comment 3 -->
+            <div class="comment-item">
+                <div class="comment-item-header">
+                    <div class="comment-user">
+                        <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=80&q=80" alt="Clara Vance">
+                        <div>
+                            <div class="comment-user-name">Clara Vance</div>
+                            <div class="comment-user-date">5 hours ago</div>
+                        </div>
+                    </div>
+                </div>
+                <p class="comment-content">
+                    Monastic typography is such a great phrase. The reading experience on this page itself embodies the exact thesis of the article.
+                </p>
+                <div class="comment-footer-actions">
+                    <button class="comment-clap-btn">
+                        <svg viewBox="0 0 24 24"><path d="M18.8 8.41a3.53 3.53 0 0 0-3.32-2.31h-.34a3.5 3.5 0 0 0-2.88 1.5 3.5 3.5 0 0 0-2.89-1.5h-.34A3.53 3.53 0 0 0 5.7 8.41c-.96 1.77-.6 4.07.87 5.56l5.77 5.86a.996.996 0 0 0 1.41 0l5.77-5.86c1.47-1.49 1.83-3.79.87-5.56z"/></svg>
+                        <span>19</span>
+                    </button>
+                    <button class="comment-cancel" style="padding:0;">Reply</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</aside>
+
+<!-- =========================================================
+     FLOATING DYNAMIC BOTTOM ACTION BAR
+     ========================================================= -->
+<div class="floating-bottom-bar" id="floatingBottomBar">
+    <button class="action-btn clap-action-btn" title="Clap for this story">
+        <svg viewBox="0 0 24 24"><path d="M18.8 8.41a3.53 3.53 0 0 0-3.32-2.31h-.34a3.5 3.5 0 0 0-2.88 1.5 3.5 3.5 0 0 0-2.89-1.5h-.34A3.53 3.53 0 0 0 5.7 8.41c-.96 1.77-.6 4.07.87 5.56l5.77 5.86a.996.996 0 0 0 1.41 0l5.77-5.86c1.47-1.49 1.83-3.79.87-5.56zm-1.89 4.15L12 17.55l-4.91-4.99c-.93-.94-1.16-2.39-.56-3.51.54-1.02 1.6-1.57 2.76-1.46 1.13.11 2.07.89 2.42 1.99.16.49.88.49 1.04 0 .35-1.1 1.29-1.88 2.42-1.99 1.16-.11 2.22.44 2.76 1.46.6 1.12.37 2.57-.56 3.51z"/></svg>
+        <span class="clap-count">2.8K</span>
+    </button>
+
+    <button class="action-btn comment-action-btn" title="View responses">
+        <svg viewBox="0 0 24 24"><path d="M18 2H6c-1.1 0-2 .9-2 2v16l4-4h10c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 12H7.17L6 15.17V4h12v10z"/></svg>
+        <span class="comment-count">48</span>
+    </button>
+
+    <div class="floating-divider"></div>
+
+    <button class="action-btn bookmark-action-btn" title="Save story">
+        <svg viewBox="0 0 24 24"><path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2zm0 15l-5-2.18L7 18V5h10v13z"/></svg>
+    </button>
+
+    <button class="action-btn share-action-btn" title="Copy share link">
+        <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92c0-1.61-1.31-2.92-2.92-2.92z"/></svg>
+    </button>
+</div>
+
+<!-- Toast notification element -->
+<div class="toast-notice" id="toastNotice">Link copied to clipboard</div>
+
+<!-- =========================================================
+     INTERACTIVITY JAVASCRIPT
+     ========================================================= -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Reading Progress Bar
+    const progressBar = document.getElementById('readingProgress');
+    window.addEventListener('scroll', () => {
+        const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = totalHeight > 0 ? (window.scrollY / totalHeight) * 100 : 0;
+        progressBar.style.width = Math.min(progress, 100) + '%';
+    });
+
+    // 2. Theme Toggle (Sync with system / preference)
+    const themeToggleBtn = document.getElementById('themeToggleBtn');
+    const sunIcon = document.getElementById('themeIconSun');
+    const moonIcon = document.getElementById('themeIconMoon');
+
+    const updateThemeIcons = (theme) => {
+        if (theme === 'dark') {
+            sunIcon.style.display = 'block';
+            moonIcon.style.display = 'none';
+        } else {
+            sunIcon.style.display = 'none';
+            moonIcon.style.display = 'block';
+        }
+    };
+
+    const savedTheme = localStorage.getItem('luma-theme') || 
+        (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    
+    if (savedTheme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+    }
+    updateThemeIcons(savedTheme);
+
+    themeToggleBtn.addEventListener('click', () => {
+        const current = document.documentElement.getAttribute('data-theme');
+        const target = current === 'dark' ? 'light' : 'dark';
+        if (target === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        } else {
+            document.documentElement.removeAttribute('data-theme');
+        }
+        localStorage.setItem('luma-theme', target);
+        updateThemeIcons(target);
+    });
+
+    // 3. Interactive Claps Logic (with +1 burst & counter sync)
+    let clapBaseCount = 2814;
+    let userClaps = 0;
+    const maxUserClaps = 50;
+
+    const clapBtns = document.querySelectorAll('.clap-action-btn');
+    const clapCounters = document.querySelectorAll('.clap-count');
+
+    const formatClaps = (count) => {
+        return count >= 1000 ? (count / 1000).toFixed(1) + 'K' : count;
+    };
+
+    clapBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            if (userClaps >= maxUserClaps) {
+                showToast('Maximum 50 claps reached!');
+                return;
+            }
+
+            userClaps++;
+            clapBaseCount++;
+
+            // Bubble animation
+            const bubble = document.createElement('span');
+            bubble.className = 'clap-bubble';
+            bubble.textContent = `+${userClaps}`;
+            btn.appendChild(bubble);
+            setTimeout(() => bubble.remove(), 700);
+
+            // Sync all clap counters on page
+            clapCounters.forEach(c => c.textContent = formatClaps(clapBaseCount));
+            clapBtns.forEach(b => b.classList.add('clapped'));
+        });
+    });
+
+    // 4. Follow Button Toggle (Top & Bottom)
+    const followBtns = [document.getElementById('topFollowBtn'), document.getElementById('bottomFollowBtn')];
+    let isFollowing = false;
+
+    followBtns.forEach(btn => {
+        if (!btn) return;
+        btn.addEventListener('click', () => {
+            isFollowing = !isFollowing;
+            followBtns.forEach(b => {
+                if (!b) return;
+                if (isFollowing) {
+                    b.textContent = 'Following';
+                    b.classList.add('following');
+                } else {
+                    b.textContent = 'Follow';
+                    b.classList.remove('following');
+                }
+            });
+            showToast(isFollowing ? 'Following Julian Vance' : 'Unfollowed Julian Vance');
+        });
+    });
+
+    // 5. Bookmark Toggle
+    const bookmarkBtns = document.querySelectorAll('.bookmark-action-btn');
+    let isSaved = false;
+
+    bookmarkBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            isSaved = !isSaved;
+            bookmarkBtns.forEach(b => {
+                b.classList.toggle('saved', isSaved);
+            });
+            showToast(isSaved ? 'Story saved to your reading list' : 'Story removed from reading list');
+        });
+    });
+
+    // 6. Share Link Action
+    const shareBtns = document.querySelectorAll('.share-action-btn');
+    shareBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(window.location.href);
+                showToast('Link copied to clipboard');
+            } else {
+                showToast('Story URL copied');
+            }
+        });
+    });
+
+    // 7. Toast Message helper
+    const toast = document.getElementById('toastNotice');
+    let toastTimer = null;
+    function showToast(message) {
+        if (toastTimer) clearTimeout(toastTimer);
+        toast.textContent = message;
+        toast.classList.add('visible');
+        toastTimer = setTimeout(() => {
+            toast.classList.remove('visible');
+        }, 2400);
+    }
+
+    // 8. Responses Drawer (Slide-Over Comments)
+    const commentBtns = document.querySelectorAll('.comment-action-btn');
+    const drawer = document.getElementById('responsesDrawer');
+    const backdrop = document.getElementById('drawerBackdrop');
+    const closeDrawerBtn = document.getElementById('closeDrawerBtn');
+
+    const openDrawer = () => {
+        drawer.classList.add('active');
+        backdrop.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    };
+
+    const closeDrawer = () => {
+        drawer.classList.remove('active');
+        backdrop.classList.remove('active');
+        document.body.style.overflow = '';
+    };
+
+    commentBtns.forEach(btn => btn.addEventListener('click', openDrawer));
+    closeDrawerBtn.addEventListener('click', closeDrawer);
+    backdrop.addEventListener('click', closeDrawer);
+
+    // 9. Add New Comment
+    const submitCommentBtn = document.getElementById('submitCommentBtn');
+    const cancelCommentBtn = document.getElementById('cancelCommentBtn');
+    const newCommentInput = document.getElementById('newCommentInput');
+    const commentsList = document.getElementById('commentsList');
+    const drawerCommentCount = document.getElementById('drawerCommentCount');
+    let totalComments = 3;
+
+    cancelCommentBtn.addEventListener('click', () => {
+        newCommentInput.value = '';
+    });
+
+    submitCommentBtn.addEventListener('click', () => {
+        const text = newCommentInput.value.trim();
+        if (!text) return;
+
+        totalComments++;
+        drawerCommentCount.textContent = totalComments;
+
+        const commentEl = document.createElement('div');
+        commentEl.className = 'comment-item';
+        commentEl.innerHTML = `
+            <div class="comment-item-header">
+                <div class="comment-user">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=80&q=80" alt="You">
+                    <div>
+                        <div class="comment-user-name">You</div>
+                        <div class="comment-user-date">Just now</div>
+                    </div>
+                </div>
+            </div>
+            <p class="comment-content">${text.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</p>
+            <div class="comment-footer-actions">
+                <button class="comment-clap-btn">
+                    <svg viewBox="0 0 24 24"><path d="M18.8 8.41a3.53 3.53 0 0 0-3.32-2.31h-.34a3.5 3.5 0 0 0-2.88 1.5 3.5 3.5 0 0 0-2.89-1.5h-.34A3.53 3.53 0 0 0 5.7 8.41c-.96 1.77-.6 4.07.87 5.56l5.77 5.86a.996.996 0 0 0 1.41 0l5.77-5.86c1.47-1.49 1.83-3.79.87-5.56z"/></svg>
+                    <span>0</span>
+                </button>
+            </div>
+        `;
+        commentsList.prepend(commentEl);
+        newCommentInput.value = '';
+        showToast('Response published');
+    });
+
+    // 10. Floating Bottom Bar Scroll Visibility
+    const floatingBar = document.getElementById('floatingBottomBar');
+    const topActionBar = document.getElementById('topActionBar');
+
+    window.addEventListener('scroll', () => {
+        const topRect = topActionBar.getBoundingClientRect();
+        // Show floating bar once top bar scrolls out of view
+        if (topRect.bottom < 0) {
+            floatingBar.classList.add('visible');
+        } else {
+            floatingBar.classList.remove('visible');
+        }
+    });
+
+    // 11. Audio Listen Button
+    const listenBtn = document.getElementById('listenBtn');
+    let isPlaying = false;
+    listenBtn.addEventListener('click', () => {
+        isPlaying = !isPlaying;
+        listenBtn.querySelector('span').textContent = isPlaying ? 'Pause' : 'Listen';
+        showToast(isPlaying ? 'Audio narration started' : 'Audio narration paused');
+    });
+});
+</script>
+
+</body>
+</html>
