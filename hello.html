@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Standalone Example</title>
+</head>
+<body>
+  <h1>Hello, world!</h1>
+  <button id="button">Click me</button>
+  <p id="message"></p>
+
+  <script>
+    const button = document.getElementById('button');
+    const message = document.getElementById('message');
+
+    button.addEventListener('click', () => {
+      message.textContent = 'This code runs entirely in this page.';
+    });
+  </script>
+</body>
+</html>
